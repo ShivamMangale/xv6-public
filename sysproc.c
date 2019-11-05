@@ -8,6 +8,13 @@
 #include "proc.h"
 
 int
+sys_dofoo(void)
+{
+	dofoo();
+	return 0;
+}
+
+int
 sys_cps(void)
 {
 	return cps();

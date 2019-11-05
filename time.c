@@ -13,11 +13,12 @@ int main (int argc,char *argv[])
    {  
    	exec(argv[1],argv);
     printf(1, "exec %s failed\n", argv[1]);
+    exit();
     }
   else
  {
     status=waitx(&a,&b);
  }  
- printf(1, "Wait Time = %d\n Run Time = %d with Status %d \n",a,b,status); 
+ printf(1, "Wait Time = %d\n Run Time = %d with pid = %d \n",a,b,status); 
  exit();
 }

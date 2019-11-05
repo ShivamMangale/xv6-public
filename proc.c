@@ -45,6 +45,12 @@ cps()
 }
 
 void
+dofoo()
+{
+	return;
+}
+
+void
 pinit(void)
 {
   initlock(&ptable.lock, "ptable");
@@ -141,6 +147,8 @@ found:
   p->rtime = 0;
   p->etime = 0;
   p->iotime = 0;
+  p->priority = 10;
+
   return p;
 }
 
@@ -293,6 +301,7 @@ exit(void)
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
   curproc->etime = ticks;
+  cprintf("Finishing process\n");
   sched();
   panic("zombie exit");
 }
@@ -370,6 +379,7 @@ waitx(int *wtime,int *rtime)
         p->killed = 0;
         p->state = UNUSED;
         release(&ptable.lock);
+        cprintf("%d %d %d %d\n",curproc->ctime,curproc->rtime,curproc->etime,curproc->iotime);
         return pid;
       }
     }
