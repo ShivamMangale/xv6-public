@@ -37,6 +37,8 @@ cps()
         cprintf("%s \t %d  \t SLEEPING \n ", p->name, p->pid );
       else if ( p->state == RUNNING )
         cprintf("%s \t %d  \t RUNNING \n ", p->name, p->pid );
+      else if(p->state == RUNNABLE)
+        cprintf("%s \t %d  \t RUNNABLE \n ", p->name, p->pid );
   }
   
   release(&ptable.lock);

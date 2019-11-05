@@ -2,7 +2,7 @@
 #include "stat.h"
 #include "user.h"
 #include "fcntl.h"
-
+//400000000
 int
 main(int argc, char *argv[])
 {
@@ -18,8 +18,7 @@ main(int argc, char *argv[])
 		else if(id > 0)
 		{
 			printf(1,"Parent creating child %d\n",id);
-			fflush(stdout);
-			for(int z=0;z<400000000;++z)
+			for(int z=0;z<4000000000;++z)
 			{
 				float x = x+1200.6*14848.3;
 				x = x*x;
@@ -29,14 +28,12 @@ main(int argc, char *argv[])
 		else
 		{
 			printf(1,"Child created\n");
-			fflush(stdout);
-			for(int z=0;z<400000000;++z)
+			for(int z=0;z<4000000000;++z)
 			{
 				float x = x+1200.6*14848.3;
 				x = x*x;
 			}
 			printf(1,"Child %d finished computation\n",getpid());
-			fflush(stdout);
 			break;
 		}
 	}
