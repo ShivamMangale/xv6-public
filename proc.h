@@ -32,6 +32,15 @@ struct context {
   uint eip;
 };
 
+
+struct proc_stat{
+  int pid;
+  float run_time;
+  int num_run;
+  int current_queue;
+  int ticks[5];
+};
+
 enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
 // Per-process state
@@ -58,11 +67,3 @@ struct proc {
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
-
-struct proc_stat{
-	int pid;
-	float run_time;
-	int num_run;
-	int current_queue;
-	int ticks[5];
-};

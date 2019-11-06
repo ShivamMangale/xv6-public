@@ -15,6 +15,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
+// int toolong = 20;
 extern void forkret(void);
 extern void trapret(void);
 
