@@ -23,3 +23,5 @@
 #define SYS_cps    22
 #define SYS_waitx  23
 #define SYS_dofoo  24
+#define SYS_getpinfo 25
+#define SYS_chpr   26

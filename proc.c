@@ -20,9 +20,38 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
+int 
+getpinfo(struct proc_stat* curproc)
+{
+    cprintf("PID : %d\n",curproc->pid);
+    cprintf("Runtime : %d\n",curproc->run_time);
+    cprintf("Number of times process in RUNNING state : %d\n",curproc->num_run);
+    cprintf("Current Queue Number : %d\n",curproc->current_queue);
+        
+    for(int i=0;i<5;++i) cprintf("Ticks in queue %d : %d\n",i,curproc->pid); 
+      
+    return 0;
+}
+
+int
+chpr(int pid,int priority)
+{
+	struct proc *p;
+	acquire(&ptable.lock);
+	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+	    if(p->pid == pid)
+	    	{
+	    		p->priority = priority;
+	    		break;
+	    	}
+	release(&ptable.lock);
+
+	return pid;
+}
+
 //current process status
 int
-cps()
+cps(void)
 {
   struct proc *p;
   
@@ -31,14 +60,14 @@ cps()
 
     // Loop over process table looking for process with pid.
   acquire(&ptable.lock);
-  cprintf("name \t pid \t state \n");
+  cprintf("name \t pid \t state \t priority\n");
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if ( p->state == SLEEPING )
-        cprintf("%s \t %d  \t SLEEPING \n ", p->name, p->pid );
+        cprintf("%s \t %d  \t SLEEPING \t %d\n ", p->name, p->pid , p->priority);
       else if ( p->state == RUNNING )
-        cprintf("%s \t %d  \t RUNNING \n ", p->name, p->pid );
+        cprintf("%s \t %d  \t RUNNING \t %d\n ", p->name, p->pid , p->priority);
       else if(p->state == RUNNABLE)
-        cprintf("%s \t %d  \t RUNNABLE \n ", p->name, p->pid );
+        cprintf("%s \t %d  \t RUNNABLE \t %d\n ", p->name, p->pid , p->priority);
   }
   
   release(&ptable.lock);
@@ -47,7 +76,7 @@ cps()
 }
 
 void
-dofoo()
+dofoo(void)
 {
 	return;
 }
@@ -60,7 +89,7 @@ pinit(void)
 
 // Must be called with interrupts disabled
 int
-cpuid() {
+cpuid(void) {
   return mycpu()-cpus;
 }
 

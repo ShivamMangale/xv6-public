@@ -31,4 +31,6 @@ SYSCALL(sleep)
 SYSCALL(uptime)
 SYSCALL(cps)
 SYSCALL(waitx)
-SYSCALL(dofoo)
+SYSCALL(dofoo)	#change name to system call
+SYSCALL(getpinfo)
+SYSCALL(chpr)

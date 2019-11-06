@@ -7,6 +7,23 @@
 #include "mmu.h"
 #include "proc.h"
 
+int sys_getpinfo(void)
+{
+  struct proc_stat* curproc;
+  if(argptr(0, (char**)&curproc, sizeof(int)) < 0)  return -1;
+
+  return getpinfo(curproc);
+}
+
+int sys_chpr(void)
+{
+	int pid,priority;
+	if(argint(0,&pid) < 0)	return -1;
+	if(argint(1,&priority) < 0)	return -1;
+
+	return chpr(pid,priority);
+}
+
 int
 sys_dofoo(void)
 {
