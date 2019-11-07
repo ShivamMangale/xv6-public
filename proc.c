@@ -42,19 +42,14 @@ getpinfo(struct proc_stat *curproc)
 }
 
 int
-chpr(int pid,int priority)
+chpr(int priority)
 {
 	struct proc *p;
-	acquire(&ptable.lock);
-	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-	    if(p->pid == pid)
-	    	{
-	    		p->priority = priority;
-	    		break;
-	    	}
-	release(&ptable.lock);
+	p = myproc();
 
-	return pid;
+	p->priority = priority;
+
+	return p->pid;
 }
 
 //current process status
@@ -477,6 +472,10 @@ scheduler(void)
               if(p->state == RUNNABLE && p->priority < high->priority)
                     high = p;
         p=high;
+      #else
+      #ifdef MLFQ
+        cprintf("Not implemented\n");
+      #endif
       #endif
       #endif
       #endif
