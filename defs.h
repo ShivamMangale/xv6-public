@@ -125,7 +125,7 @@ int 			cps(void);
 int 			waitx(int *,int *);
 void 			dofoo(void);
 int				getpinfo(struct proc_stat*);
-int 			chpr(int,int);
+int 			chpr(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
