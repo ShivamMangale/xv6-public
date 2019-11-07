@@ -28,15 +28,15 @@ getpinfo(struct proc_stat *curproc)
     p = myproc();
 
     cprintf("PID : %d\n",p->pid);
-    // curproc->pid = p->pid;
+    curproc->pid = p->pid;
     // cprintf("Runtime : %d\n",p->rtime);
-    // curproc->run_time = p->rtime;
+    curproc->run_time = p->rtime;
     // cprintf("Number of times process in RUNNING state : %d\n",p->num_run);
-    // curproc->num_run = p->num_run;
+    curproc->num_run = p->num_run;
     // // cprintf("Current Queue Number : %d\n",p->current_queue);
-    // curproc->current_queue = p->current_queue;
-    // for(int i=0;i<5;++i) //cprintf("Ticks in queue %d : %d\n",i,p->ticks[i]); 
-    //   curproc->ticks[i] = p->ticks[i];
+    curproc->current_queue = p->current_queue;
+    for(int i=0;i<5;++i) //cprintf("Ticks in queue %d : %d\n",i,p->ticks[i]); 
+      curproc->ticks[i] = p->ticks[i];
     
     return 25;
 }
