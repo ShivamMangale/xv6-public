@@ -35,7 +35,7 @@ struct context {
 
 struct proc_stat{
   int pid;
-  float run_time;
+  int run_time;
   int num_run;
   int current_queue;
   int ticks[5];
@@ -60,6 +60,7 @@ struct proc {
   char name[16];               // Process name (debugging)
   int ctime,etime,rtime,iotime;
   int priority;
+  struct proc_stat *proc_stat;
 };
 
 // Process memory is laid out contiguously, low addresses first:

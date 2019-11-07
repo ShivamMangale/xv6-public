@@ -24,14 +24,18 @@ static void wakeup1(void *chan);
 int 
 getpinfo(struct proc_stat* curproc)
 {
-    cprintf("PID : %d\n",curproc->pid);
-    cprintf("Runtime : %d\n",curproc->run_time);
-    cprintf("Number of times process in RUNNING state : %d\n",curproc->num_run);
-    cprintf("Current Queue Number : %d\n",curproc->current_queue);
+    struct proc *p;
+    p = myproc();
+
+    cprintf("PID : %d\n",p->pid);
+    cprintf("PID : %d\n",p->proc_stat->pid);
+    cprintf("Runtime : %d\n",p->proc_stat->run_time);
+    cprintf("Number of times process in RUNNING state : %d\n",p->proc_stat->num_run);
+    cprintf("Current Queue Number : %d\n",p->proc_stat->current_queue);
         
-    for(int i=0;i<5;++i) cprintf("Ticks in queue %d : %d\n",i,curproc->pid); 
+    for(int i=0;i<5;++i) cprintf("Ticks in queue %d : %d\n",i,p->proc_stat->ticks[i]); 
       
-    return 0;
+    return 25;
 }
 
 int
@@ -174,12 +178,22 @@ found:
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
 
+  sp -= sizeof *p->proc_stat;
+  p->proc_stat = (struct proc_stat*)sp;
+  memset(p->proc_stat, 0, sizeof *p->proc_stat);
+
+  p->proc_stat->pid = p->pid;
 
   p->ctime = ticks;
   p->rtime = 0;
   p->etime = 0;
   p->iotime = 0;
   p->priority = 10;
+
+  p->proc_stat->run_time = 0;
+  p->proc_stat->num_run = 0;
+  p->proc_stat->current_queue = 0;
+  for(int i=0;i<5;++i)  p->proc_stat->ticks[i]=0;
 
   return p;
 }

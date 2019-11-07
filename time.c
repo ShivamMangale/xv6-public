@@ -13,6 +13,9 @@ int main (int argc,char *argv[])
     int y;
     if (pid!= 0)
     {   
+        struct proc_stat* curproc=(struct proc_stat*)(malloc(sizeof(struct proc_stat*)*1));
+        int val = getpinfo(curproc);
+        val = val;
         status=waitx(&x,&y);
         printf(1, "Wait Time = %d\n Run Time = %d\n Status: %d \n", x, y, status); 
 
