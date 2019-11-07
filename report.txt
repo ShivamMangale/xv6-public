@@ -1,0 +1,2 @@
+A program can run a few times and observe the amount of time it gets cpu access in each queue before being sent to the next queue.
+Then on the basis of the queue it can organise its cpu and i/o(or any action that leads to it voluntarily relinquishing control) leading it to go back of the same queue, hence getting a lower prioirity and hence more preference to its execution leading to better throughput.

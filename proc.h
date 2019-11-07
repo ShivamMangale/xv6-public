@@ -60,7 +60,8 @@ struct proc {
   char name[16];               // Process name (debugging)
   int ctime,etime,rtime,iotime;
   int priority;
-  struct proc_stat *proc_stat;
+  // struct proc_stat *proc_stat;
+  int num_run,current_queue,ticks[5];
 };
 
 // Process memory is laid out contiguously, low addresses first:

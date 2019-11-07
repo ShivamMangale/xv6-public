@@ -34,7 +34,7 @@ main(int argc, char *argv[])
    //  printf(1,"Number of times process in RUNNING state : %d\n",curproc->num_run);
    //  printf(1,"Current Queue Number : %d\n",curproc->current_queue);
         
-    // for(int i=0;i<5;++i) printf(1,"Ticks in queue %d : %d\n",i,curproc->pid); 
+   //  for(int i=0;i<5;++i) printf(1,"Ticks in queue %d : %d\n",i,curproc->pid); 
 
   	return 0;
 }

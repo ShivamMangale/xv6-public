@@ -22,19 +22,22 @@ extern void trapret(void);
 static void wakeup1(void *chan);
 
 int 
-getpinfo(struct proc_stat* curproc)
+getpinfo(struct proc_stat *curproc)
 {
     struct proc *p;
     p = myproc();
 
     cprintf("PID : %d\n",p->pid);
-    cprintf("PID : %d\n",p->proc_stat->pid);
-    cprintf("Runtime : %d\n",p->proc_stat->run_time);
-    cprintf("Number of times process in RUNNING state : %d\n",p->proc_stat->num_run);
-    cprintf("Current Queue Number : %d\n",p->proc_stat->current_queue);
-        
-    for(int i=0;i<5;++i) cprintf("Ticks in queue %d : %d\n",i,p->proc_stat->ticks[i]); 
-      
+    // curproc->pid = p->pid;
+    // cprintf("Runtime : %d\n",p->rtime);
+    // curproc->run_time = p->rtime;
+    // cprintf("Number of times process in RUNNING state : %d\n",p->num_run);
+    // curproc->num_run = p->num_run;
+    // // cprintf("Current Queue Number : %d\n",p->current_queue);
+    // curproc->current_queue = p->current_queue;
+    // for(int i=0;i<5;++i) //cprintf("Ticks in queue %d : %d\n",i,p->ticks[i]); 
+    //   curproc->ticks[i] = p->ticks[i];
+    
     return 25;
 }
 
@@ -178,22 +181,15 @@ found:
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
 
-  sp -= sizeof *p->proc_stat;
-  p->proc_stat = (struct proc_stat*)sp;
-  memset(p->proc_stat, 0, sizeof *p->proc_stat);
-
-  p->proc_stat->pid = p->pid;
-
   p->ctime = ticks;
   p->rtime = 0;
   p->etime = 0;
   p->iotime = 0;
   p->priority = 10;
 
-  p->proc_stat->run_time = 0;
-  p->proc_stat->num_run = 0;
-  p->proc_stat->current_queue = 0;
-  for(int i=0;i<5;++i)  p->proc_stat->ticks[i]=0;
+  p->num_run = 0;
+  p->current_queue = 0;
+  for(int i=0;i<5;++i)  p->ticks[i]=0;
 
   return p;
 }
@@ -472,7 +468,7 @@ scheduler(void)
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
-
+      // p->num_run++;
       swtch(&(c->scheduler), p->context);
       switchkvm();
 
