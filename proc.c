@@ -185,7 +185,7 @@ found:
   p->rtime = 0;
   p->etime = 0;
   p->iotime = 0;
-  p->priority = 10;
+  p->priority = 60;
 
   p->num_run = 0;
   p->current_queue = 0;
@@ -461,7 +461,25 @@ scheduler(void)
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
-
+      #ifdef DEFAULT
+        ;
+      #else
+      #ifdef FCFS
+        struct proc* high = p;
+         for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+              if(p->state == RUNNABLE && p->pid < high->pid)
+                    high = p;
+        p=high;
+      #else
+      #ifdef PBS
+        struct proc* high = p;
+         for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+              if(p->state == RUNNABLE && p->priority < high->priority)
+                    high = p;
+        p=high;
+      #endif
+      #endif
+      #endif
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
